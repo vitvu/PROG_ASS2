@@ -2,108 +2,101 @@
 #include <cstdlib>
 
 
-int print_menu_get_selection(int choice){
-    while (1) {
-        printf("================================\n");
-        printf("1. Enter Student Data\n2. Print All Student Data\n3. Find Max Grade\n4. Find Min Grade\n5. Exit\n");
-        printf("================================\n");
-        printf("----> Enter your selection: ");
-        scanf("%d",&choice);
-        if (choice >= 1 and choice <= 5) {
-            break;
-        } else {
-            printf("[Error] Invalid choice. Try again\n================================\n");
-        }
-    }
+int printmenu(int choice){
+    printf("================================\n");
+    printf("1. Enter Data\n2. Print Data\n3. Find Max Grade\n4. Find Min Grade\n5. Exit\n");
+    printf("================================\n");
+    printf("Enter your selection: ");
     return choice;
 }
 
-int enter_student_data(int student_ids[], float student_grades[], int students_size) {
-    float student_grade;
+int enterdata(int idstudents[], float gradestudents[], int numberstudent) {
+    float studentgrade;
     int i;
     
-    for (i = 0; i < students_size; i++) {
-        long student_id;
+    for (i = 0; i < numberstudent; i++) {
+        int studentid;
         printf("Enter ID Student %d: ", i+1);
-        scanf("%d", &student_id);
+        scanf("%d", &studentid);
         printf("Enter Grade Student %d: ", i+1);
-        scanf("%f", &student_grade);
-        student_ids[i] = student_id;
-        student_grades[i] = student_grade;
-        printf("\n---> Student %d: ID %d - Grade %.2f", i+1, student_ids[i], student_grades[i]);
-        printf("\n================================\n");
+        scanf("%f", &studentgrade);
+        idstudents[i] = studentid;
+        gradestudents[i] = studentgrade;
+        printf("\nStudent %d: ID %d - Grade %.2f", i+1, idstudents[i], gradestudents[i]);
+        printf("\n----------------------------\n");
     }
-    printf("\n================================\n");
     return 0;
 }
-int print_student_data(int student_ids[], float student_grades[], int students_size) {
+int printdata(int idstudents[], float gradestudents[], int numberstudent) {
     
-    printf("All Student Data:\n");
-    printf("No\t\tID\t\t\tGrade\n");
-    for (int i = 0; i < students_size; i++) {
-        printf("%d\t\t%d\t\t\t%.2f\n", i+1, student_ids[i], student_grades[i]);
+    printf("Number\t\tID\t\t\tGrade\n");
+    for (int i = 0; i < numberstudent; i++) {
+        printf("%d\t\t%d\t\t\t%.2f\n", i+1, idstudents[i], gradestudents[i]);
     }
-    printf("\n================================\n");
     return 0;
 }
-int find_max_grade(int student_ids[], float student_grades[], int students_size) {
-    float max_grade = student_grades[0];
-    long student_id_highest;
-    for (int i = 0; i < students_size; i++) {
-        if (student_grades[i] > max_grade) {
-            max_grade = student_grades[i];
-            student_id_highest = student_ids[i];
+int findmaxgrade(int idstudents[], float gradestudents[], int numberstudent) {
+    float max = 0;
+    int higestid;
+    for (int i = 0; i < numberstudent; i++) {
+        if (gradestudents[i] > max) {
+            max = gradestudents[i];
+            higestid = idstudents[i];
         }
     }
-    printf("\nHighest grade: ID %d - Grade %.2f", student_id_highest, max_grade);
-    printf("\n================================\n");
+    printf("\nHighest grade: ID %d - Grade %.2f", higestid, max);
     return 0;
 }
-int find_min_grade(int student_ids[], float student_grades[], int students_size) {
-    float min_grade = student_grades[0];
-    long student_id_lowest;
-    for (int i = 0; i < students_size; i++) {
-        if (student_grades[i] < min_grade) {
-            min_grade = student_grades[i];
-            student_id_lowest = student_ids[i];
+int findmingrade(int idstudents[], float gradestudents[], int numberstudent) {
+    float min = 100;
+    int lowestid;
+    for (int i = 0; i < numberstudent; i++) {
+        if (gradestudents[i] < min) {
+            min = gradestudents[i];
+            lowestid = idstudents[i];
         }
     }
-    printf("\nLowest grade: ID %d - Grade %.2f", student_id_lowest, min_grade);
-    printf("\n================================\n");
+    printf("\nLowest grade: ID %d - Grade %.2f", lowestid, min);
     return 0;
 }
 
 int main() {
-    printf("Student Management Program\n");
-    printf("================================\n");
     printf("Enter the number of students: ");
-    int student_count;
-    scanf("%d", &student_count);
-    int student_ids[student_count];
-    float student_grades[student_count];
+    int numberstudent;
+    scanf("%d", &numberstudent);
+    int idstudents[numberstudent];
+    float gradestudents[numberstudent];
+    
     while (1) {
 
         int choice;
-        choice = print_menu_get_selection(choice);
+        while (1) {
+            choice = printmenu(choice);
+            scanf("%d", &choice);
+            if (choice >= 1 and choice <= 5) {
+                break;
+            } else {
+                printf("Invalid choice. Try again\n");
+            }
+        }
         switch (choice) {
         case 1:
-            enter_student_data(student_ids, student_grades, student_count);
+            enterdata(idstudents, gradestudents, numberstudent);
             break;
 
         case 2:
-            print_student_data(student_ids, student_grades, student_count);
+            printdata(idstudents, gradestudents, numberstudent);
             break;
 
         case 3:
-            find_max_grade(student_ids, student_grades, student_count);
+            findmaxgrade(idstudents, gradestudents, numberstudent);
             break;
 
         case 4:
-            find_min_grade(student_ids, student_grades, student_count);
+            findmingrade(idstudents, gradestudents, numberstudent);
             break;
 
         case 5:
-            printf("Exiting...\n");
             exit(0);
             break;
         
